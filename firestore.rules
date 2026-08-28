@@ -1,0 +1,130 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function nonEmptyString(value) {
+      return value is string && value.size() > 0;
+    }
+
+    function nullableNumber(value) {
+      return value == null || value is number;
+    }
+
+    function nullableNonEmptyString(value) {
+      return value == null || nonEmptyString(value);
+    }
+
+    function nullablePositiveInt(value) {
+      return value == null || (value is int && value > 0);
+    }
+
+    function hasCreatedAt(data, isNew) {
+      return isNew ? data.createdAt == request.time : data.createdAt is timestamp;
+    }
+
+    function validMemory(data, isNew) {
+      return data.title is string
+        && nonEmptyString(data.content)
+        && data.quizUrl is string
+        && (data.quizUrl.size() == 0 || data.quizUrl.matches('^https?://.+'))
+        && data.quizDone is bool
+        && data.easeFactor is number
+        && data.easeFactor >= 1.3
+        && data.intervalDays is int
+        && data.intervalDays >= 0
+        && data.repetitions is int
+        && data.repetitions >= 0
+        && nullableNumber(data.nextReviewAt)
+        && nullableNumber(data.lastReviewedAt)
+        && hasCreatedAt(data, isNew);
+    }
+
+    function optionalPositiveNumber(value) {
+      return value == null || (value is number && value > 0);
+    }
+
+    function nonNegativeOrNull(value) {
+      return value == null || (value is number && value >= 0);
+    }
+
+    // Tasks are fully data-driven: any combination of day/month intervals plus
+    // an optional metered reading (with its own unit label). At least one
+    // interval must be set, and trackReading must agree with intervalReading:
+    // a metered task carries a positive usage interval and a unit label, while
+    // a date-only task carries none of the reading fields.
+    function validRecurringTask(data, isNew) {
+      return nonEmptyString(data.name)
+        && nullableNonEmptyString(data.emoji)
+        && nullableNonEmptyString(data.notes)
+        && nullablePositiveInt(data.intervalDays)
+        && nullablePositiveInt(data.intervalMonths)
+        && data.trackReading is bool
+        && data.trackReading == (data.intervalReading != null)
+        && (data.trackReading == false || nonEmptyString(data.readingLabel))
+        && (data.trackReading == true || data.readingLabel == null)
+        && optionalPositiveNumber(data.intervalReading)
+        && (data.intervalDays != null || data.intervalMonths != null || data.intervalReading != null)
+        && hasCreatedAt(data, isNew);
+    }
+
+    function validRecurringLog(data, isNew) {
+      return nonEmptyString(data.taskId)
+        && data.performedAt is number
+        && nonNegativeOrNull(data.readingValue)
+        && hasCreatedAt(data, isNew);
+    }
+
+    function validPdfDocument(data, isNew) {
+      return nonEmptyString(data.title)
+        && data.url is string
+        && data.url.size() > 0
+        && data.lastReadPage is int
+        && data.lastReadPage >= 1
+        && (data.totalPages == null || (data.totalPages is int && data.totalPages >= 1))
+        && hasCreatedAt(data, isNew);
+    }
+
+    // User profile document: displayName, preferredLocale, theme, createdAt.
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+
+      match /memoryItems/{memoryId} {
+        allow read, delete: if isOwner(uid);
+        allow create: if isOwner(uid) && validMemory(request.resource.data, true);
+        allow update: if isOwner(uid) && validMemory(request.resource.data, false);
+      }
+
+      match /maintenanceTasks/{taskId} {
+        allow read, delete: if isOwner(uid);
+        allow create: if isOwner(uid) && validRecurringTask(request.resource.data, true);
+        allow update: if isOwner(uid) && validRecurringTask(request.resource.data, false);
+      }
+
+      match /maintenanceLogs/{logId} {
+        allow read, delete: if isOwner(uid);
+        allow create: if isOwner(uid) && validRecurringLog(request.resource.data, true);
+        allow update: if isOwner(uid) && validRecurringLog(request.resource.data, false);
+      }
+
+      match /pdfDocuments/{documentId} {
+        allow read, delete: if isOwner(uid);
+        allow create: if isOwner(uid) && validPdfDocument(request.resource.data, true);
+        allow update: if isOwner(uid) && validPdfDocument(request.resource.data, false);
+      }
+    }
+
+    // Deny everything else explicitly (default-deny anyway).
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
