@@ -12,7 +12,6 @@ import { useAuth } from '@/core/auth/use-auth'
 import { authErrorMessage, firebaseErrorCode } from '@/core/lib/error-messages'
 import { Button } from '@/core/ui/button'
 import { Card, Label } from '@/core/ui/card'
-import { GoogleIcon } from '@/core/ui/google-icon'
 import { Input } from '@/core/ui/input'
 
 const schema = z.object({
@@ -23,7 +22,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>
 
 export default function LoginPage() {
-  const { signIn, signInWithGoogle } = useAuth()
+  const { signIn } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useTranslation('common')
@@ -54,16 +53,6 @@ export default function LoginPage() {
     }
   }
 
-  async function onGoogleSignIn() {
-    setFormError(null)
-    try {
-      await signInWithGoogle()
-      navigate(redirectTo, { replace: true })
-    } catch (error) {
-      setFormError(toMessage(error))
-    }
-  }
-
   return (
     <div className='grid min-h-svh place-items-center p-4'>
       <div className='w-full max-w-sm space-y-6'>
@@ -88,6 +77,14 @@ export default function LoginPage() {
               <Label htmlFor='password'>{t('auth.password')}</Label>
               <Input id='password' type='password' autoComplete='current-password' {...register('password')} />
               {errors.password ? <p className='text-xs text-danger'>{t('auth.errors.weakPassword')}</p> : null}
+              <div className='text-right'>
+                <Link
+                  className='text-xs font-semibold text-accent underline-offset-4 hover:underline'
+                  to='/forgot-password'
+                >
+                  {t('auth.forgotPassword')}
+                </Link>
+              </div>
             </div>
 
             {formError ? (
@@ -104,18 +101,6 @@ export default function LoginPage() {
               {isSubmitting ? t('states.loading') : t('auth.signInAction')}
             </Button>
           </form>
-
-          <Button variant='outline' className='w-full' onClick={() => void onGoogleSignIn()}>
-            <GoogleIcon className='size-4' />
-            {t('auth.googleSignIn')}
-          </Button>
-
-          <p className='text-center text-sm text-text'>
-            {t('auth.noAccount')}{' '}
-            <Link className='font-semibold text-accent underline-offset-4 hover:underline' to='/register'>
-              {t('auth.signUpAction')}
-            </Link>
-          </p>
         </Card>
       </div>
     </div>

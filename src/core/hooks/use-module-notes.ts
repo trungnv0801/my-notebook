@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { skipToken, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import type { Note } from '@/types/base-note'
 
@@ -25,7 +25,7 @@ export function useModuleNotes<T extends object>(collectionName: string) {
 
   return useQuery<Note<T>[]>({
     queryKey: moduleNotesKey(uid, collectionName),
-    enabled: false,
+    queryFn: skipToken,
     staleTime: Infinity,
     initialData: []
   })

@@ -2,26 +2,25 @@ import { createContext, type ReactNode, useEffect, useState } from 'react'
 
 import type { User } from 'firebase/auth'
 import {
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
+  confirmPasswordReset,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
-  signInWithPopup,
   signOut as firebaseSignOut,
-  updateProfile
+  verifyPasswordResetCode
 } from 'firebase/auth'
 
 import { firebaseAuth } from '@/core/firebase/firebase'
-import { ensureUserProfile } from '@/core/firebase/profile'
 import type { AppUser } from '@/types/user'
 
 interface AuthContextValue {
   user: AppUser | null
   loading: boolean
   signIn: (email: string, password: string) => Promise<void>
-  signUp: (displayName: string, email: string, password: string) => Promise<void>
+  resetPassword: (email: string) => Promise<void>
+  verifyResetCode: (code: string) => Promise<string>
+  confirmResetPassword: (code: string, password: string) => Promise<void>
   signOut: () => Promise<void>
-  signInWithGoogle: () => Promise<void>
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null)
@@ -52,19 +51,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await signInWithEmailAndPassword(firebaseAuth, email, password)
   }
 
-  async function signUp(displayName: string, email: string, password: string): Promise<void> {
-    const credential = await createUserWithEmailAndPassword(firebaseAuth, email, password)
-    await updateProfile(credential.user, { displayName })
-    await ensureUserProfile(credential.user)
-    setUser({ ...toAppUser(credential.user), displayName })
+  async function resetPassword(email: string): Promise<void> {
+    await sendPasswordResetEmail(firebaseAuth, email)
   }
 
-  async function signInWithGoogle(): Promise<void> {
-    const credential = await signInWithPopup(firebaseAuth, new GoogleAuthProvider())
-    const { creationTime, lastSignInTime } = credential.user.metadata
-    if (creationTime === lastSignInTime) {
-      await ensureUserProfile(credential.user)
-    }
+  async function verifyResetCode(code: string): Promise<string> {
+    return verifyPasswordResetCode(firebaseAuth, code)
+  }
+
+  async function confirmResetPassword(code: string, password: string): Promise<void> {
+    await confirmPasswordReset(firebaseAuth, code, password)
   }
 
   async function signOut(): Promise<void> {
@@ -72,7 +68,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, signUp, signOut, signInWithGoogle }}>
+    <AuthContext.Provider
+      value={{ user, loading, signIn, resetPassword, verifyResetCode, confirmResetPassword, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   )

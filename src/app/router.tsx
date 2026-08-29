@@ -2,8 +2,9 @@ import { type ComponentType, Suspense } from 'react'
 
 import { createBrowserRouter, Navigate } from 'react-router'
 
+import ForgotPasswordPage from '@/core/auth/pages/forgot-password-page'
 import LoginPage from '@/core/auth/pages/login-page'
-import RegisterPage from '@/core/auth/pages/register-page'
+import ResetPasswordPage from '@/core/auth/pages/reset-password-page'
 import { ProtectedRoute } from '@/core/auth/protected-route'
 import { Spinner } from '@/core/ui/spinner'
 import { appModules } from '@/modules/module.registry'
@@ -41,7 +42,8 @@ const moduleRoutes = appModules.map((module) => ({
 
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
-  { path: '/register', element: <RegisterPage /> },
+  { path: '/forgot-password', element: <ForgotPasswordPage /> },
+  { path: '/reset-password', element: <ResetPasswordPage /> },
   {
     element: <ProtectedRoute />,
     children: [
