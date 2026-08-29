@@ -37,6 +37,6 @@ jobs:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/gcp-sa.json
           FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
         run: |
-          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MY_DEBT_BOOK }}' > gcp-sa.json
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SO_TAY_CUA_TOI }}' > gcp-sa.json
           npx firebase-tools deploy --only firestore:rules --project "$FIREBASE_PROJECT_ID"
           rm gcp-sa.json
