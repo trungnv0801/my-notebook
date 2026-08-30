@@ -12,7 +12,9 @@ jobs:
   build_and_preview:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Install dependencies & build
         env:
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
@@ -25,8 +27,8 @@ jobs:
         run: |
           npm ci
           npm run build
-      - uses: actions/checkout@v4
-      - run: npm ci && npm run build
+
+      - name: Deploy Firebase Hosting
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
