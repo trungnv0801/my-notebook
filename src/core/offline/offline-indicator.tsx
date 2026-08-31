@@ -22,8 +22,8 @@ export function OfflineIndicator() {
         title={t('offline.online')}
         className='inline-flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400'
       >
-        <Icon className='size-3.5' />
-        {t('offline.online')}
+        <Icon aria-hidden='true' className='size-3.5 shrink-0' />
+        <span className='hidden lg:inline'>{t('offline.online')}</span>
       </span>
     )
   }
@@ -31,12 +31,14 @@ export function OfflineIndicator() {
   return (
     <span
       role='status'
+      aria-label={t(`offline.${status}`)}
+      title={t(`offline.${status}`)}
       className={`inline-flex items-center gap-1.5 text-xs ${
         status === 'offline' ? 'text-red-600 dark:text-red-400' : 'text-amber-600 dark:text-amber-400'
       }`}
     >
-      <Icon className='size-3.5 animate-pulse' />
-      {t(`offline.${status}`)}
+      <Icon aria-hidden='true' className='size-3.5 shrink-0 animate-pulse' />
+      <span className='hidden lg:inline'>{t(`offline.${status}`)}</span>
     </span>
   )
 }
