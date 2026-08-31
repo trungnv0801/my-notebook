@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useAuth } from '@/core/auth/use-auth'
 import { useModuleNotes } from '@/core/hooks/use-module-notes'
 
-import { addPdf, PDF_COLLECTION, removePdf, saveProgress, saveTotalPages } from '../api/documents'
+import { addPdf, PDF_COLLECTION, removePdf, updatePdf } from '../api/documents'
 import type { PdfDocument } from '../types'
 
 export function useDocuments() {
@@ -30,22 +30,12 @@ export function useDeletePdf() {
   })
 }
 
-export function useSaveProgress() {
+export function useUpdatePdf() {
   const { user } = useAuth()
   return useMutation({
-    mutationFn: ({ documentId, page }: { documentId: string; page: number }) => {
+    mutationFn: ({ documentId, patch }: { documentId: string; patch: Partial<PdfDocument> }) => {
       if (!user) throw new Error('Not authenticated')
-      return saveProgress(user.uid, documentId, page)
-    }
-  })
-}
-
-export function useSaveTotalPages() {
-  const { user } = useAuth()
-  return useMutation({
-    mutationFn: ({ documentId, totalPages }: { documentId: string; totalPages: number }) => {
-      if (!user) throw new Error('Not authenticated')
-      return saveTotalPages(user.uid, documentId, totalPages)
+      return updatePdf(user.uid, documentId, patch)
     }
   })
 }

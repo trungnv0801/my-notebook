@@ -4,7 +4,7 @@ const en = {
   fields: {
     title: 'Title',
     url: 'PDF URL',
-    totalPages: 'Total pages (optional)'
+    lastReadPage: 'Last read page'
   },
   list: {
     emptyTitle: 'No documents yet',
@@ -12,22 +12,15 @@ const en = {
     progress: 'Page {{page}} / {{total}}',
     progressUnknown: 'Page {{page}}'
   },
-  view: {
-    notFound: 'Document not found',
-    pageOf: 'Page {{page}} / {{total}}',
-    page: 'Page {{page}}',
-    previous: 'Previous page',
-    next: 'Next page',
-    zoomIn: 'Zoom in',
-    zoomOut: 'Zoom out',
-    zoomReset: 'Reset zoom',
-    loadErrorTitle: 'Could not display this PDF',
-    loadErrorDescription: 'The host may block cross-origin requests (CORS), or the link is unreachable.',
-    openOriginal: 'Open original PDF'
-  },
   create: {
     title: 'Add PDF',
     submit: 'Save PDF'
+  },
+  edit: {
+    action: 'Edit',
+    title: 'Edit PDF',
+    submit: 'Save changes',
+    notFound: 'Document not found'
   }
 }
 
