@@ -2,10 +2,10 @@ const authErrorKeys: Record<string, string> = {
   'auth/invalid-credential': 'invalidCredentials',
   'auth/wrong-password': 'invalidCredentials',
   'auth/user-not-found': 'userNotFound',
-  'auth/email-already-in-use': 'emailInUse',
   'auth/weak-password': 'weakPassword',
   'auth/too-many-requests': 'tooManyRequests',
-  'auth/popup-closed-by-user': 'popupClosed'
+  'auth/expired-action-code': 'resetLinkInvalid',
+  'auth/invalid-action-code': 'resetLinkInvalid'
 }
 
 export function authErrorMessage(code: string): string {

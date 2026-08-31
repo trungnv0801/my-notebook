@@ -7,7 +7,7 @@ A multi-user, offline-first React app where each user logs and gets reminded abo
 - **Build**: Vite + React 19 + TypeScript
 - **Routing**: react-router v7 (`createBrowserRouter`, lazy-loaded modules)
 - **State/data**: TanStack Query over Firestore snapshots
-- **Backend**: Firebase Auth (Email/Password + Google) & Firestore; Firebase Hosting config ready
+- **Backend**: Firebase Auth (Email/Password + password reset) & Firestore; Firebase Hosting config ready
 - **Offline-first**: `vite-plugin-pwa` service worker (app shell) + Firestore `persistentLocalCache` (data), multi-tab safe
 - **UI**: Tailwind CSS v4 + shadcn-style primitives in `src/core/ui`
 - **Forms**: react-hook-form + zod · **i18n**: react-i18next (en/vi) · **Tests**: Vitest + Testing Library
@@ -23,7 +23,7 @@ src/
     components/       # header/sidebar/language-switcher/theme-toggle
   core/               # shared infrastructure only — no module business logic
     firebase/         # init, emulator wiring, generic users/{uid}/{collection} CRUD, profile bootstrap
-    auth/             # AuthProvider/useAuth, ProtectedRoute, login/register pages
+    auth/             # AuthProvider/useAuth, ProtectedRoute, login/password-reset pages
     offline/          # network status + sync indicator
     i18n/             # i18next init (core 'common' namespace) + en/vi locales
     ui/               # Button, Input, Card, EmptyState, Spinner…
@@ -38,7 +38,7 @@ main.tsx
 
 Each module folder exposes an `AppModule` object from its own `module.config.ts`: id, path, icon, nav label key, namespace, collection name, lazy route elements and its **own** en/vi translations. `module.registry.ts` collects them into one array. Everything else is derived automatically:
 
-- **Routing** (`app/router.tsx`) builds `/login`, `/register`, the protected layout route and one child subtree per module (list at index, extra pages via `children`) from the registry.
+- **Routing** (`app/router.tsx`) builds `/login`, `/forgot-password`, the protected layout route and one child subtree per module (list at index, extra pages via `children`) from the registry.
 - **Sidebar** (`app/components/sidebar.tsx`) renders one nav entry per registry item.
 - **i18n** (`core/i18n/config.ts`) merges every module's `locales/en.ts` / `locales/vi.ts` into i18next as a per-module namespace at startup.
 - **Data layer** (`core/firebase/crud.ts` + `core/hooks/use-module-notes.ts`) is generic: it takes any `users/{uid}/{collectionName}` path, so modules never touch core when added.
@@ -53,7 +53,7 @@ All user data lives under `users/{uid}/…`. Chosen layout: **a dedicated subcol
 - Per-module queries need no composite indexes or filtering on `moduleId`.
 - A new module needs no data-model migration: its subcollection simply starts empty; the rules file gains one validated block for its schema (the only intentional touch-point).
 
-A `users/{uid}` profile document (`displayName`, `preferredLocale`, `theme`, `createdAt`) is created automatically on first sign-up (email or Google). Item documents carry `createdAt` (server timestamp) plus their module fields:
+Item documents carry `createdAt` (server timestamp) plus their module fields:
 
 | Collection              | Fields                                                                                                                          |
 | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
@@ -77,7 +77,7 @@ npm run prepare        # installs git hooks (husky)
 npm run dev            # http://localhost:3000
 ```
 
-With the emulators (recommended — sign-up/sign-in works fully offline):
+With the emulators (recommended — sign-in/password reset works fully offline):
 
 ```bash
 firebase login          # once, needed by the CLI
@@ -91,6 +91,10 @@ Production build: `npm run build` → deploy with `firebase deploy --only hostin
 ### Environment variables
 
 See `.env.example`: `VITE_USE_EMULATOR` plus the standard `VITE_FIREBASE_*` web-app keys. Placeholder values are acceptable while developing against emulators; real values come from the Firebase console for production. Never commit a real `.env`.
+
+### Password reset email
+
+The app handles password reset links at `/reset-password`. In Firebase Console, open **Authentication → Templates → Password reset**, customize the action URL, and set it to your deployed app URL followed by `/reset-password` (for example, `https://your-app.web.app/reset-password`). Add the deployed domain to **Authentication → Settings → Authorized domains** as well.
 
 ### Scripts
 
