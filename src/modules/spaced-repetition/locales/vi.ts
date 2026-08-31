@@ -2,15 +2,15 @@ import type { Dictionary } from './en'
 
 const vi: Dictionary = {
   title: 'Lặp lại ngắt quãng',
-  subtitle: 'Lưu lại bất cứ điều đáng nhớ — khái niệm, mẹo, đoạn trích — và ôn theo lịch giãn dần',
+  subtitle: 'Nhóm các đường link quiz và ôn tập theo lịch giãn dần',
   fields: {
-    title: 'Tiêu đề (tuỳ chọn)',
-    content: 'Nội dung',
-    quizUrl: 'Đường link quiz (tuỳ chọn)'
+    title: 'Tiêu đề',
+    quizUrls: 'Các đường link quiz',
+    quizUrlNumber: 'Đường link quiz {{number}}'
   },
   list: {
     emptyTitle: 'Chưa có mục nào',
-    emptyDescription: 'Thêm khái niệm, mẹo hoặc đoạn trích đầu tiên bạn muốn ghi nhớ lâu dài.',
+    emptyDescription: 'Thêm tiêu đề và một hoặc nhiều đường link quiz để bắt đầu ôn tập.',
     totalCount_one: '{{count}} mục',
     totalCount_other: '{{count}} mục',
     dueCount_one: '{{count}} mục cần ôn hôm nay',
@@ -29,8 +29,8 @@ const vi: Dictionary = {
       scheduled: 'Đã lên lịch'
     },
     quiz: {
-      open: 'Mở quiz',
-      done: 'Đã làm quiz'
+      openNumber: 'Mở quiz {{number}}',
+      done: 'Đã làm tất cả quiz'
     }
   },
   review: {
@@ -40,12 +40,22 @@ const vi: Dictionary = {
     good: 'Tốt',
     easy: 'Dễ'
   },
-  create: {
-    title: 'Mục ghi nhớ mới',
-    submit: 'Lưu mục',
+  memoryForm: {
+    addQuizLink: 'Thêm đường link quiz',
+    removeQuizLink: 'Xoá đường link quiz {{number}}',
     errors: {
       quizUrl: 'Nhập đường link http(s) hợp lệ, ví dụ https://example.com/quiz.'
     }
+  },
+  create: {
+    title: 'Bộ quiz mới',
+    submit: 'Lưu bộ quiz'
+  },
+  edit: {
+    action: 'Chỉnh sửa bộ quiz',
+    title: 'Chỉnh sửa bộ quiz',
+    submit: 'Lưu thay đổi',
+    notFound: 'Không tìm thấy bộ quiz'
   }
 }
 

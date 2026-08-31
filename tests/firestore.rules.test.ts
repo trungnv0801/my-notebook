@@ -31,9 +31,8 @@ describe.skipIf(!emulatorReady)('firestore.rules', () => {
   }
 
   const validMemory = {
-    title: '',
-    content: 'Spacing effect: distributed practice beats cramming.',
-    quizUrl: 'https://example.com/quiz',
+    title: 'Spacing effect',
+    quizUrls: ['https://example.com/quiz', 'https://example.com/quiz-2'],
     quizDone: false,
     easeFactor: 2.5,
     intervalDays: 0,
@@ -126,7 +125,9 @@ describe.skipIf(!emulatorReady)('firestore.rules', () => {
     // A non-boolean quiz-done flag must be rejected…
     await assertFails(setDoc(memoryReference, { ...validMemory, quizDone: 'yes' }))
     // …as must a quiz link that is not an http(s) URL.
-    await assertFails(setDoc(memoryReference, { ...validMemory, quizUrl: 'javascript:alert(1)' }))
+    await assertFails(setDoc(memoryReference, { ...validMemory, quizUrls: ['javascript:alert(1)'] }))
+    await assertFails(setDoc(memoryReference, { ...validMemory, title: '' }))
+    await assertFails(setDoc(memoryReference, { ...validMemory, quizUrls: [] }))
   })
 
   it('rejects unauthenticated access', async () => {
@@ -146,5 +147,6 @@ describe.skipIf(!emulatorReady)('firestore.rules', () => {
     expect(Object.keys(validTask)).toContain('intervalReading')
     expect(Object.keys(validLog)).toContain('readingValue')
     expect(Object.keys(validMemory)).toContain('quizDone')
+    expect(Object.keys(validMemory)).toContain('quizUrls')
   })
 })

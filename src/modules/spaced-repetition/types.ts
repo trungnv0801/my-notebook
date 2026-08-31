@@ -1,11 +1,12 @@
-/** Anything the user wants to remember long-term: a concept, a tip, an excerpt… */
+/** A titled set of external quizzes reviewed on a spaced-repetition schedule. */
 export interface MemoryItem {
-  /** Short label shown in lists. May be empty — the UI falls back to the first content line. */
+  /** Short label shown in lists. */
   title: string
-  /** Free-form long-form content, deliberately unstructured. */
-  content: string
-  /** Link to an external quiz for this item. Empty string when the item has none. */
-  quizUrl: string
+  /** Links to the external quizzes included in this item. */
+  quizUrls: string[]
+  /** Legacy fields kept optional so existing Firestore records remain readable. */
+  content?: string
+  quizUrl?: string
   /** True once the user ticked the "quiz done" checkbox. */
   quizDone: boolean
   /** SM-2 ease factor (starts at 2.5, clamped to a floor of 1.3). */
@@ -22,8 +23,7 @@ export interface MemoryItem {
 
 export interface NewMemoryInput {
   title: string
-  content: string
-  quizUrl: string
+  quizUrls: string[]
 }
 
 /** The scheduling subset of {@link MemoryItem} — exactly what one graded review rewrites. */
