@@ -1,14 +1,14 @@
 const en = {
   title: 'Spaced Repetition',
-  subtitle: 'Park anything worth remembering — concepts, tips, excerpts — and review it on an expanding schedule',
+  subtitle: 'Group your quiz links and review them on an expanding schedule',
   fields: {
-    title: 'Title (optional)',
-    content: 'Content',
-    quizUrl: 'Quiz link (optional)'
+    title: 'Title',
+    quizUrls: 'Quiz links',
+    quizUrlNumber: 'Quiz link {{number}}'
   },
   list: {
     emptyTitle: 'Nothing saved yet',
-    emptyDescription: 'Add the first concept, tip or excerpt you want to remember long-term.',
+    emptyDescription: 'Add a title and one or more quiz links to start reviewing.',
     totalCount_one: '{{count}} item',
     totalCount_other: '{{count}} items',
     dueCount_one: '{{count}} due for review',
@@ -27,8 +27,8 @@ const en = {
       scheduled: 'Scheduled'
     },
     quiz: {
-      open: 'Open quiz',
-      done: 'Quiz done'
+      openNumber: 'Open quiz {{number}}',
+      done: 'All quizzes done'
     }
   },
   review: {
@@ -38,12 +38,22 @@ const en = {
     good: 'Good',
     easy: 'Easy'
   },
-  create: {
-    title: 'New memory',
-    submit: 'Save memory',
+  memoryForm: {
+    addQuizLink: 'Add quiz link',
+    removeQuizLink: 'Remove quiz link {{number}}',
     errors: {
       quizUrl: 'Enter a valid http(s) link, e.g. https://example.com/quiz.'
     }
+  },
+  create: {
+    title: 'New quiz set',
+    submit: 'Save quiz set'
+  },
+  edit: {
+    action: 'Edit quiz set',
+    title: 'Edit quiz set',
+    submit: 'Save changes',
+    notFound: 'Quiz set not found'
   }
 }
 

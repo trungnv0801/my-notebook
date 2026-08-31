@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
-import { Brain, ExternalLink, Plus, Trash2 } from 'lucide-react'
+import { Brain, ExternalLink, Pencil, Plus, Trash2 } from 'lucide-react'
 
 import { useAuth } from '@/core/auth/use-auth'
 import { formatDate } from '@/core/lib/date-utils'
@@ -29,8 +29,15 @@ const statusBadgeClasses: Record<MemoryStatus, string> = {
 function displayTitle(item: MemoryItem): string {
   const trimmedTitle = item.title.trim()
   if (trimmedTitle !== '') return trimmedTitle
-  const firstLine = item.content.split('\n')[0]?.trim() ?? ''
-  return firstLine !== '' ? firstLine : item.content.trim()
+  const legacyContent = item.content ?? ''
+  const firstLine = legacyContent.split('\n')[0]?.trim() ?? ''
+  return firstLine !== '' ? firstLine : legacyContent.trim()
+}
+
+function quizUrls(item: MemoryItem): string[] {
+  const urls = Array.isArray(item.quizUrls) ? item.quizUrls : []
+  if (urls.length > 0) return urls
+  return item.quizUrl ? [item.quizUrl] : []
 }
 
 export default function MemoryListPage() {
@@ -92,21 +99,33 @@ export default function MemoryListPage() {
 
   function renderCard(item: Note<MemoryItem>) {
     const status = getMemoryStatus(item)
+    const itemQuizUrls = quizUrls(item)
 
     return (
       <Card key={item.id}>
         <div className='flex items-start justify-between gap-2'>
           <CardTitle>{displayTitle(item)}</CardTitle>
-          <Button
-            variant='ghost'
-            size='sm'
-            aria-label={t('actions.delete', { ns: 'common' })}
-            className='text-text/70 hover:bg-danger/10 hover:text-danger'
-            disabled={removeMemory.isPending && removingId === item.id}
-            onClick={() => deleteItem(item)}
-          >
-            <Trash2 className='size-4' />
-          </Button>
+          <div className='flex shrink-0 gap-1'>
+            <Button
+              variant='ghost'
+              size='sm'
+              aria-label={t('edit.action')}
+              title={t('edit.action')}
+              onClick={() => void navigate(`${item.id}/edit`)}
+            >
+              <Pencil className='size-4' />
+            </Button>
+            <Button
+              variant='ghost'
+              size='sm'
+              aria-label={t('actions.delete', { ns: 'common' })}
+              className='text-text/70 hover:bg-danger/10 hover:text-danger'
+              disabled={removeMemory.isPending && removingId === item.id}
+              onClick={() => deleteItem(item)}
+            >
+              <Trash2 className='size-4' />
+            </Button>
+          </div>
         </div>
 
         <div className='mt-2 flex flex-wrap items-center gap-x-3 gap-y-1'>
@@ -123,19 +142,26 @@ export default function MemoryListPage() {
           ) : null}
         </div>
 
-        <CardContent className='mt-3 whitespace-pre-line leading-relaxed'>{item.content}</CardContent>
+        {item.content ? (
+          <CardContent className='mt-3 whitespace-pre-line leading-relaxed'>{item.content}</CardContent>
+        ) : null}
 
-        {item.quizUrl !== '' ? (
-          <div className='mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-surface-2 px-3 py-2.5'>
-            <a
-              href={item.quizUrl}
-              target='_blank'
-              rel='noreferrer'
-              className='inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline'
-            >
-              <ExternalLink aria-hidden='true' className='size-4' />
-              {t('list.quiz.open')}
-            </a>
+        {itemQuizUrls.length > 0 ? (
+          <div className='mt-4 space-y-3 rounded-xl border border-border bg-surface-2 px-3 py-2.5'>
+            <div className='flex flex-col items-start gap-2'>
+              {itemQuizUrls.map((url, index) => (
+                <a
+                  key={`${url}-${index}`}
+                  href={url}
+                  target='_blank'
+                  rel='noreferrer'
+                  className='inline-flex items-center gap-1.5 break-all text-sm font-medium text-accent hover:underline'
+                >
+                  <ExternalLink aria-hidden='true' className='size-4 shrink-0' />
+                  {t('list.quiz.openNumber', { number: index + 1 })}
+                </a>
+              ))}
+            </div>
             <label className='flex cursor-pointer select-none items-center gap-2 text-sm text-text'>
               <input
                 type='checkbox'

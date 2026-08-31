@@ -14,6 +14,9 @@ export const spacedRepetitionModule: AppModule = {
   namespace: 'spaced-repetition',
   collectionName: 'memoryItems',
   element: spacedRepetitionRoutes.list,
-  children: [{ path: 'new', element: spacedRepetitionRoutes.create }],
+  children: [
+    { path: 'new', element: spacedRepetitionRoutes.create },
+    { path: ':memoryId/edit', element: spacedRepetitionRoutes.edit }
+  ],
   translations: { en, vi }
 }
