@@ -16,7 +16,7 @@ export const pdfReaderModule: AppModule = {
   element: pdfReaderRoutes.list,
   children: [
     { path: 'new', element: pdfReaderRoutes.create },
-    { path: ':documentId', element: pdfReaderRoutes.view }
+    { path: ':documentId/edit', element: pdfReaderRoutes.edit }
   ],
   translations: { en, vi }
 }

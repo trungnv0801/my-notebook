@@ -15,8 +15,7 @@ import { useCreatePdf } from '../hooks/use-documents'
 
 const schema = z.object({
   title: z.string().min(1),
-  url: z.string().url(),
-  totalPages: z.union([z.coerce.number().int().positive(), z.literal('')])
+  url: z.string().url()
 })
 
 type FormInput = z.input<typeof schema>
@@ -34,7 +33,7 @@ export default function DocumentCreatePage() {
     formState: { errors, isSubmitting }
   } = useForm<FormInput, unknown, FormOutput>({
     resolver: zodResolver(schema),
-    defaultValues: { title: '', url: '', totalPages: '' }
+    defaultValues: { title: '', url: '' }
   })
 
   async function onSubmit(values: FormOutput) {
@@ -43,7 +42,7 @@ export default function DocumentCreatePage() {
       await createPdf.mutateAsync({
         title: values.title,
         url: values.url,
-        totalPages: values.totalPages === '' ? null : values.totalPages
+        totalPages: null
       })
       void navigate('..')
     } catch {
@@ -75,11 +74,6 @@ export default function DocumentCreatePage() {
               <p className='text-xs text-red-600 dark:text-red-400'>{requiredError('url')}</p>
             ) : null}
           </div>
-          <div className='space-y-1'>
-            <Label htmlFor='totalPages'>{t('fields.totalPages')}</Label>
-            <Input id='totalPages' type='number' min='1' step='1' {...register('totalPages')} />
-          </div>
-
           {formError ? <p className='text-sm text-red-600 dark:text-red-400'>{formError}</p> : null}
 
           <div className='flex justify-end gap-2'>
