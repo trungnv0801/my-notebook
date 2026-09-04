@@ -98,10 +98,7 @@ export function ReminderBell() {
                     }}
                   >
                     <span className='min-w-0 flex-1'>
-                      <span className='block truncate text-sm font-medium text-heading'>
-                        {reminder.emoji ? `${reminder.emoji} ` : ''}
-                        {reminder.name}
-                      </span>
+                      <span className='block truncate text-sm font-medium text-heading'>{reminder.name}</span>
                       <span className='text-xs text-text/70'>{formatDate(reminder.nextDueAt, i18n.language)}</span>
                     </span>
                     <TaskStatusBadge status={reminder.status} />

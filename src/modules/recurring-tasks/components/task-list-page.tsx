@@ -81,13 +81,7 @@ export default function TaskListPage() {
               <Card key={task.id} interactive>
                 <div className='flex items-start justify-between gap-2'>
                   <CardTitle className='flex min-w-0 items-center gap-2'>
-                    {task.emoji ? (
-                      <span aria-hidden='true' className='text-base leading-none'>
-                        {task.emoji}
-                      </span>
-                    ) : (
-                      <Repeat className='size-4 shrink-0 text-accent' />
-                    )}
+                    <Repeat className='size-4 shrink-0 text-accent' />
                     <span className='truncate'>{task.name}</span>
                   </CardTitle>
                   <Button

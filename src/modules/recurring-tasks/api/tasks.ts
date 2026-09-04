@@ -1,10 +1,11 @@
-import { createNote, deleteNote } from '@/core/firebase/crud'
+import { createNote, deleteNote, updateNote } from '@/core/firebase/crud'
+
+import type { RecurringTask } from '../types'
 
 export const TASKS_COLLECTION = 'maintenanceTasks'
 
 export interface NewRecurringTaskInput {
   name: string
-  emoji: string | null
   notes: string | null
   intervalDays: number | null
   intervalMonths: number | null
@@ -15,6 +16,10 @@ export interface NewRecurringTaskInput {
 
 export function addTask(uid: string, input: NewRecurringTaskInput): Promise<string> {
   return createNote<NewRecurringTaskInput>(uid, TASKS_COLLECTION, input)
+}
+
+export function updateTask(uid: string, taskId: string, patch: Partial<RecurringTask>): Promise<void> {
+  return updateNote(uid, TASKS_COLLECTION, taskId, { ...patch })
 }
 
 export function removeTask(uid: string, taskId: string): Promise<void> {

@@ -6,8 +6,6 @@
 export interface RecurringTask {
   /** Human-readable name, e.g. "Thay dầu xe máy", "Lấy cao răng". */
   name: string
-  /** Optional emoji shown next to the name, e.g. "🦷". Null when unused. */
-  emoji: string | null
   /** Optional free-form notes about how / where to do the task. Null when unused. */
   notes: string | null
   /** Repeat every this many days (e.g. water the plants every 3). Null when unused. */

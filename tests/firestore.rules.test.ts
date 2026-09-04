@@ -13,7 +13,6 @@ describe.skipIf(!emulatorReady)('firestore.rules', () => {
   // A date-only recurring task (e.g. an annual health check-up).
   const validTask = {
     name: 'Khám sức khỏe tổng quát',
-    emoji: '🩺',
     notes: null,
     intervalDays: null,
     intervalMonths: 12,
