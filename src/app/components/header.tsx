@@ -16,7 +16,7 @@ export function Header({ onMenuClick }: { onMenuClick: () => void }) {
   const initial = (user?.displayName ?? user?.email ?? '?').charAt(0).toUpperCase()
 
   return (
-    <header className='sticky top-0 z-20 flex h-14 min-w-0 shrink-0 items-center gap-1 border-b border-border/70 bg-bg/80 px-2 backdrop-blur-md sm:gap-2 sm:px-4'>
+    <header className='sticky top-0 z-20 flex h-14 min-w-0 shrink-0 items-center gap-1 border-b border-border/70 bg-bg/80 px-2 backdrop-blur-md sm:gap-2 sm:px-4 md:z-50'>
       <Button
         variant='ghost'
         size='sm'

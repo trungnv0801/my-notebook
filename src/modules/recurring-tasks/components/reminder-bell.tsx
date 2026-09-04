@@ -79,7 +79,7 @@ export function ReminderBell() {
       </Button>
 
       {open ? (
-        <div className='absolute right-0 top-11 z-30 w-80 max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-surface p-3 shadow-lg'>
+        <div className='fixed inset-x-4 top-16 z-30 w-auto rounded-xl border border-border bg-surface p-3 shadow-lg lg:absolute lg:inset-x-auto lg:right-0 lg:top-11 lg:w-80 lg:max-w-[calc(100vw-2rem)]'>
           <p className='px-1 pb-2 text-sm font-semibold text-heading'>{t('notifications.panelTitle')}</p>
           {!hasReminders ? (
             <p className='px-1 py-3 text-xs text-text/80'>
