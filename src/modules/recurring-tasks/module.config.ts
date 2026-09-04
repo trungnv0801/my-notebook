@@ -16,6 +16,7 @@ export const recurringTasksModule: AppModule = {
   element: recurringTasksRoutes.list,
   children: [
     { path: 'new', element: recurringTasksRoutes.create },
+    { path: ':taskId/edit', element: recurringTasksRoutes.edit },
     { path: ':taskId', element: recurringTasksRoutes.detail }
   ],
   translations: { en, vi }

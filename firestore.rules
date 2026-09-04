@@ -86,7 +86,6 @@ service cloud.firestore {
     // a date-only task carries none of the reading fields.
     function validRecurringTask(data, isNew) {
       return nonEmptyString(data.name)
-        && nullableNonEmptyString(data.emoji)
         && nullableNonEmptyString(data.notes)
         && nullablePositiveInt(data.intervalDays)
         && nullablePositiveInt(data.intervalMonths)

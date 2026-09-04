@@ -19,7 +19,6 @@ function makeLog(performedAt: number, readingValue: number | null): Note<Recurri
 function makeTask(overrides: Partial<RecurringTask>): RecurringTask {
   return {
     name: 'Task',
-    emoji: null,
     notes: null,
     intervalDays: null,
     intervalMonths: null,

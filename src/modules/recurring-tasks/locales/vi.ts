@@ -5,7 +5,6 @@ const vi: Dictionary = {
   subtitle: 'Ghi nhận mọi việc lặp lại — thay dầu, lấy cao răng, khám định kỳ — và xem ngày cần làm tiếp theo',
   fields: {
     name: 'Tên việc',
-    emoji: 'Biểu tượng (emoji)',
     notes: 'Ghi chú',
     intervalDays: 'Chu kỳ (ngày)',
     intervalMonths: 'Chu kỳ (tháng)',
@@ -38,6 +37,12 @@ const vi: Dictionary = {
       intervalRequired: 'Chọn ít nhất một chu kỳ — ngày, tháng hoặc chỉ số.',
       firstRecordIncomplete: 'Cần nhập cả ngày thực hiện và chỉ số đo.'
     }
+  },
+  edit: {
+    action: 'Sửa',
+    title: 'Sửa việc định kỳ',
+    submit: 'Lưu thay đổi',
+    notFound: 'Không tìm thấy việc này'
   },
   detail: {
     status: {

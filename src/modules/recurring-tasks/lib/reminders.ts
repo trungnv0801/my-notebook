@@ -8,7 +8,6 @@ export type ReminderStatus = 'overdue' | 'due-soon'
 export interface TaskReminder {
   taskId: string
   name: string
-  emoji: string | null
   status: ReminderStatus
   nextDueAt: number
 }
@@ -34,7 +33,6 @@ export function collectReminders(
       reminders.push({
         taskId: task.id,
         name: task.name,
-        emoji: task.emoji,
         status: schedule.status,
         nextDueAt: schedule.nextDueAt
       })

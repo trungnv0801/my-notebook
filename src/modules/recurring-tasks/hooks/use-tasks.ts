@@ -4,7 +4,7 @@ import { useAuth } from '@/core/auth/use-auth'
 import { useModuleNotes } from '@/core/hooks/use-module-notes'
 
 import type { NewRecurringTaskInput } from '../api/tasks'
-import { addTask, removeTask, TASKS_COLLECTION } from '../api/tasks'
+import { addTask, removeTask, TASKS_COLLECTION, updateTask } from '../api/tasks'
 import type { RecurringTask } from '../types'
 
 export function useTasks() {
@@ -17,6 +17,21 @@ export function useCreateTask() {
     mutationFn: (input: NewRecurringTaskInput) => {
       if (!user) throw new Error('Not authenticated')
       return addTask(user.uid, input)
+    }
+  })
+}
+
+export interface UpdateTaskInput {
+  taskId: string
+  patch: Partial<RecurringTask>
+}
+
+export function useUpdateTask() {
+  const { user } = useAuth()
+  return useMutation({
+    mutationFn: ({ taskId, patch }: UpdateTaskInput) => {
+      if (!user) throw new Error('Not authenticated')
+      return updateTask(user.uid, taskId, patch)
     }
   })
 }

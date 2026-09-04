@@ -14,7 +14,6 @@ function makeTask(id: string, overrides: Partial<RecurringTask> = {}): Note<Recu
     id,
     createdAt: null,
     name: 'Task',
-    emoji: null,
     notes: null,
     intervalDays: null,
     intervalMonths: null,
@@ -32,13 +31,13 @@ function makeLog(taskId: string, performedAt: number, readingValue: number | nul
 
 describe('collectReminders', () => {
   it('flags overdue date-only tasks without any reading math', () => {
-    const tasks = [makeTask('t1', { name: 'Lấy cao răng', emoji: '🦷', intervalMonths: 6 })]
+    const tasks = [makeTask('t1', { name: 'Lấy cao răng', intervalMonths: 6 })]
     const logs = new Map([['t1', [makeLog('t1', utc('2025-06-01'), null)]]])
 
     const reminders = collectReminders(tasks, logs, utc('2026-03-01'))
 
     expect(reminders).toHaveLength(1)
-    expect(reminders[0]).toMatchObject({ taskId: 't1', name: 'Lấy cao răng', emoji: '🦷', status: 'overdue' })
+    expect(reminders[0]).toMatchObject({ taskId: 't1', name: 'Lấy cao răng', status: 'overdue' })
   })
 
   it('sorts overdue first, then due-soon by due date', () => {

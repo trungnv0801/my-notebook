@@ -3,7 +3,6 @@ const en = {
   subtitle: 'Track anything that repeats — oil changes, dental visits, yearly check-ups — and see the next due date',
   fields: {
     name: 'Task name',
-    emoji: 'Icon (emoji)',
     notes: 'Notes',
     intervalDays: 'Interval (days)',
     intervalMonths: 'Interval (months)',
@@ -36,6 +35,12 @@ const en = {
       intervalRequired: 'Set at least one interval — days, months or usage.',
       firstRecordIncomplete: 'Fill in both the date and the meter reading.'
     }
+  },
+  edit: {
+    action: 'Edit',
+    title: 'Edit recurring task',
+    submit: 'Save changes',
+    notFound: 'This task no longer exists'
   },
   detail: {
     status: {

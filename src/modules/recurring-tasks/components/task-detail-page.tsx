@@ -4,7 +4,7 @@ import type { FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router'
 
-import { Calendar, Plus, Repeat, Trash2 } from 'lucide-react'
+import { Calendar, Pencil, Plus, Repeat, Trash2 } from 'lucide-react'
 
 import { useAuth } from '@/core/auth/use-auth'
 import { formatDate } from '@/core/lib/date-utils'
@@ -110,12 +110,18 @@ export default function TaskDetailPage() {
     <section className='space-y-6'>
       <PageHeader
         action={
-          <Button variant='outline' onClick={() => void navigate('..')}>
-            {t('actions.back', { ns: 'common' })}
-          </Button>
+          <div className='flex gap-2'>
+            <Button variant='outline' onClick={() => void navigate('edit')}>
+              <Pencil className='size-4' />
+              {t('edit.action')}
+            </Button>
+            <Button variant='outline' onClick={() => void navigate('..')}>
+              {t('actions.back', { ns: 'common' })}
+            </Button>
+          </div>
         }
         subtitle={describeIntervals(task, t)}
-        title={`${task.emoji ? `${task.emoji} ` : ''}${task.name}`}
+        title={task.name}
       />
 
       {task.notes ? (
