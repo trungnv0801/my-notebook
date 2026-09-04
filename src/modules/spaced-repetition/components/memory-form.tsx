@@ -13,7 +13,7 @@ import { Input } from '@/core/ui/input'
 
 const schema = z.object({
   title: z.string().trim().min(1),
-  quizLinks: z
+  practiceLinks: z
     .array(z.object({ url: z.url({ protocol: /^https?$/ }) }))
     .min(1)
     .max(10)
@@ -42,7 +42,7 @@ export function MemoryForm({ title, submitLabel, defaultValues, onCancel, onSubm
     resolver: zodResolver(schema),
     defaultValues
   })
-  const { fields, append, remove } = useFieldArray({ control, name: 'quizLinks' })
+  const { fields, append, remove } = useFieldArray({ control, name: 'practiceLinks' })
 
   async function submit(values: MemoryFormValues) {
     setFormError(null)
@@ -68,21 +68,21 @@ export function MemoryForm({ title, submitLabel, defaultValues, onCancel, onSubm
           </div>
 
           <div className='space-y-3'>
-            <Label>{t('fields.quizUrls')}</Label>
+            <Label>{t('fields.practiceUrls')}</Label>
             {fields.map((field, index) => (
               <div key={field.id} className='space-y-1'>
                 <div className='flex gap-2'>
                   <Input
-                    aria-label={t('fields.quizUrlNumber', { number: index + 1 })}
+                    aria-label={t('fields.practiceUrlNumber', { number: index + 1 })}
                     type='url'
-                    placeholder='https://example.com/quiz'
-                    {...register(`quizLinks.${index}.url`)}
+                    placeholder='https://example.com/practice'
+                    {...register(`practiceLinks.${index}.url`)}
                   />
                   {fields.length > 1 ? (
                     <Button
                       variant='ghost'
                       size='sm'
-                      aria-label={t('memoryForm.removeQuizLink', { number: index + 1 })}
+                      aria-label={t('memoryForm.removePracticeLink', { number: index + 1 })}
                       className='shrink-0 text-text/70 hover:bg-danger/10 hover:text-danger'
                       onClick={() => remove(index)}
                     >
@@ -90,14 +90,14 @@ export function MemoryForm({ title, submitLabel, defaultValues, onCancel, onSubm
                     </Button>
                   ) : null}
                 </div>
-                {errors.quizLinks?.[index]?.url ? (
-                  <p className='text-xs text-red-600 dark:text-red-400'>{t('memoryForm.errors.quizUrl')}</p>
+                {errors.practiceLinks?.[index]?.url ? (
+                  <p className='text-xs text-red-600 dark:text-red-400'>{t('memoryForm.errors.practiceUrl')}</p>
                 ) : null}
               </div>
             ))}
             <Button variant='outline' size='sm' disabled={fields.length >= 10} onClick={() => append({ url: '' })}>
               <Plus className='size-4' />
-              {t('memoryForm.addQuizLink')}
+              {t('memoryForm.addPracticeLink')}
             </Button>
           </div>
 
