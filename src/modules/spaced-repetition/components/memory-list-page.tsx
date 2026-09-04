@@ -26,20 +26,6 @@ const statusBadgeClasses: Record<MemoryStatus, string> = {
   scheduled: 'bg-surface-2 text-text'
 }
 
-function displayTitle(item: MemoryItem): string {
-  const trimmedTitle = item.title.trim()
-  if (trimmedTitle !== '') return trimmedTitle
-  const legacyContent = item.content ?? ''
-  const firstLine = legacyContent.split('\n')[0]?.trim() ?? ''
-  return firstLine !== '' ? firstLine : legacyContent.trim()
-}
-
-function quizUrls(item: MemoryItem): string[] {
-  const urls = Array.isArray(item.quizUrls) ? item.quizUrls : []
-  if (urls.length > 0) return urls
-  return item.quizUrl ? [item.quizUrl] : []
-}
-
 export default function MemoryListPage() {
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -73,10 +59,10 @@ export default function MemoryListPage() {
         (first.nextReviewAt ?? Number.MAX_SAFE_INTEGER) - (second.nextReviewAt ?? Number.MAX_SAFE_INTEGER)
     )
 
-  async function toggleQuizDone(item: Note<MemoryItem>) {
+  async function togglePracticeDone(item: Note<MemoryItem>) {
     setBusyId(item.id)
     try {
-      await updateMemory.mutateAsync({ memoryId: item.id, patch: { quizDone: !item.quizDone } })
+      await updateMemory.mutateAsync({ memoryId: item.id, patch: { practiceDone: !item.practiceDone } })
     } finally {
       setBusyId(null)
     }
@@ -99,12 +85,12 @@ export default function MemoryListPage() {
 
   function renderCard(item: Note<MemoryItem>) {
     const status = getMemoryStatus(item)
-    const itemQuizUrls = quizUrls(item)
+    const itemPracticeUrls = item.practiceUrls
 
     return (
       <Card key={item.id}>
         <div className='flex items-start justify-between gap-2'>
-          <CardTitle>{displayTitle(item)}</CardTitle>
+          <CardTitle>{item.title}</CardTitle>
           <div className='flex shrink-0 gap-1'>
             <Button
               variant='ghost'
@@ -142,14 +128,10 @@ export default function MemoryListPage() {
           ) : null}
         </div>
 
-        {item.content ? (
-          <CardContent className='mt-3 whitespace-pre-line leading-relaxed'>{item.content}</CardContent>
-        ) : null}
-
-        {itemQuizUrls.length > 0 ? (
+        {itemPracticeUrls.length > 0 ? (
           <div className='mt-4 space-y-3 rounded-xl border border-border bg-surface-2 px-3 py-2.5'>
             <div className='flex flex-col items-start gap-2'>
-              {itemQuizUrls.map((url, index) => (
+              {itemPracticeUrls.map((url, index) => (
                 <a
                   key={`${url}-${index}`}
                   href={url}
@@ -158,7 +140,7 @@ export default function MemoryListPage() {
                   className='inline-flex items-center gap-1.5 break-all text-sm font-medium text-accent hover:underline'
                 >
                   <ExternalLink aria-hidden='true' className='size-4 shrink-0' />
-                  {t('list.quiz.openNumber', { number: index + 1 })}
+                  {t('list.practice.openNumber', { number: index + 1 })}
                 </a>
               ))}
             </div>
@@ -166,11 +148,11 @@ export default function MemoryListPage() {
               <input
                 type='checkbox'
                 className='size-4 accent-accent'
-                checked={item.quizDone}
+                checked={item.practiceDone}
                 disabled={busyId === item.id}
-                onChange={() => void toggleQuizDone(item)}
+                onChange={() => void togglePracticeDone(item)}
               />
-              {t('list.quiz.done')}
+              {t('list.practice.done')}
             </label>
           </div>
         ) : null}

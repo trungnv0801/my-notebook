@@ -31,43 +31,35 @@ service cloud.firestore {
       return isNew ? data.createdAt == request.time : data.createdAt is timestamp;
     }
 
-    function validQuizUrl(value) {
+    function validPracticeUrl(value) {
       return value is string && value.matches('^https?://.+');
     }
 
     // Firestore rules do not expose an "every" operation for lists, so validate
     // each supported slot explicitly. The UI applies the same ten-link limit.
-    function validQuizUrls(urls) {
+    function validPracticeUrls(urls) {
       return urls is list
         && urls.size() > 0
         && urls.size() <= 10
-        && validQuizUrl(urls[0])
-        && (urls.size() < 2 || validQuizUrl(urls[1]))
-        && (urls.size() < 3 || validQuizUrl(urls[2]))
-        && (urls.size() < 4 || validQuizUrl(urls[3]))
-        && (urls.size() < 5 || validQuizUrl(urls[4]))
-        && (urls.size() < 6 || validQuizUrl(urls[5]))
-        && (urls.size() < 7 || validQuizUrl(urls[6]))
-        && (urls.size() < 8 || validQuizUrl(urls[7]))
-        && (urls.size() < 9 || validQuizUrl(urls[8]))
-        && (urls.size() < 10 || validQuizUrl(urls[9]));
+        && validPracticeUrl(urls[0])
+        && (urls.size() < 2 || validPracticeUrl(urls[1]))
+        && (urls.size() < 3 || validPracticeUrl(urls[2]))
+        && (urls.size() < 4 || validPracticeUrl(urls[3]))
+        && (urls.size() < 5 || validPracticeUrl(urls[4]))
+        && (urls.size() < 6 || validPracticeUrl(urls[5]))
+        && (urls.size() < 7 || validPracticeUrl(urls[6]))
+        && (urls.size() < 8 || validPracticeUrl(urls[7]))
+        && (urls.size() < 9 || validPracticeUrl(urls[8]))
+        && (urls.size() < 10 || validPracticeUrl(urls[9]));
     }
 
     function validMemoryContent(data) {
-      return ('quizUrls' in data && nonEmptyString(data.title) && validQuizUrls(data.quizUrls))
-        // Continue accepting the previous shape so saved items can still be
-        // reviewed, marked done, and deleted without a migration.
-        || ('content' in data
-          && 'quizUrl' in data
-          && data.title is string
-          && nonEmptyString(data.content)
-          && data.quizUrl is string
-          && (data.quizUrl.size() == 0 || validQuizUrl(data.quizUrl)));
+      return nonEmptyString(data.title) && validPracticeUrls(data.practiceUrls);
     }
 
     function validMemory(data, isNew) {
       return validMemoryContent(data)
-        && data.quizDone is bool
+        && data.practiceDone is bool
         && data.easeFactor is number
         && data.easeFactor >= 1.3
         && data.intervalDays is int

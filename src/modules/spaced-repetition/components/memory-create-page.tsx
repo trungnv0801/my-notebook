@@ -12,7 +12,7 @@ export default function MemoryCreatePage() {
   async function onSubmit(values: MemoryFormValues) {
     await createMemory.mutateAsync({
       title: values.title,
-      quizUrls: values.quizLinks.map(({ url }) => url)
+      practiceUrls: values.practiceLinks.map(({ url }) => url)
     })
     void navigate('..')
   }
@@ -21,7 +21,7 @@ export default function MemoryCreatePage() {
     <MemoryForm
       title={t('create.title')}
       submitLabel={t('create.submit')}
-      defaultValues={{ title: '', quizLinks: [{ url: '' }] }}
+      defaultValues={{ title: '', practiceLinks: [{ url: '' }] }}
       onCancel={() => void navigate('..')}
       onSubmit={onSubmit}
     />

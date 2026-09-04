@@ -9,7 +9,7 @@ export const MEMORIES_COLLECTION = 'memoryItems'
 export function addMemory(uid: string, input: NewMemoryInput): Promise<string> {
   return createNote(uid, MEMORIES_COLLECTION, {
     ...input,
-    quizDone: false,
+    practiceDone: false,
     easeFactor: DEFAULT_EASE_FACTOR,
     intervalDays: 0,
     repetitions: 0,

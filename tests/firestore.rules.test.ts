@@ -32,8 +32,8 @@ describe.skipIf(!emulatorReady)('firestore.rules', () => {
 
   const validMemory = {
     title: 'Spacing effect',
-    quizUrls: ['https://example.com/quiz', 'https://example.com/quiz-2'],
-    quizDone: false,
+    practiceUrls: ['https://example.com/practice', 'https://example.com/practice-2'],
+    practiceDone: false,
     easeFactor: 2.5,
     intervalDays: 0,
     repetitions: 0,
@@ -122,12 +122,12 @@ describe.skipIf(!emulatorReady)('firestore.rules', () => {
     // A negative meter reading must be rejected.
     await assertFails(setDoc(logReference, { ...validLog, readingValue: -5 }))
     const memoryReference = doc(alice.firestore(), 'users', 'alice', 'memoryItems', 'bad')
-    // A non-boolean quiz-done flag must be rejected…
-    await assertFails(setDoc(memoryReference, { ...validMemory, quizDone: 'yes' }))
-    // …as must a quiz link that is not an http(s) URL.
-    await assertFails(setDoc(memoryReference, { ...validMemory, quizUrls: ['javascript:alert(1)'] }))
+    // A non-boolean practice-done flag must be rejected…
+    await assertFails(setDoc(memoryReference, { ...validMemory, practiceDone: 'yes' }))
+    // …as must a practice link that is not an http(s) URL.
+    await assertFails(setDoc(memoryReference, { ...validMemory, practiceUrls: ['javascript:alert(1)'] }))
     await assertFails(setDoc(memoryReference, { ...validMemory, title: '' }))
-    await assertFails(setDoc(memoryReference, { ...validMemory, quizUrls: [] }))
+    await assertFails(setDoc(memoryReference, { ...validMemory, practiceUrls: [] }))
   })
 
   it('rejects unauthenticated access', async () => {
@@ -146,7 +146,7 @@ describe.skipIf(!emulatorReady)('firestore.rules', () => {
     expect(Object.keys(validTask)).toContain('trackReading')
     expect(Object.keys(validTask)).toContain('intervalReading')
     expect(Object.keys(validLog)).toContain('readingValue')
-    expect(Object.keys(validMemory)).toContain('quizDone')
-    expect(Object.keys(validMemory)).toContain('quizUrls')
+    expect(Object.keys(validMemory)).toContain('practiceDone')
+    expect(Object.keys(validMemory)).toContain('practiceUrls')
   })
 })

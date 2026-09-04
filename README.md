@@ -133,7 +133,7 @@ That's it — routing, sidebar entry, en/vi translations and data plumbing light
 
 ## Known limitations (intentional scaffolding scope)
 
-- Spaced repetition grades reviews client-side with a small SM-2 implementation (`modules/spaced-repetition/lib/schedule.ts`, unit-tested); every item can also carry an external quiz link plus a "quiz done" checkbox.
+- Spaced repetition grades reviews client-side with a small SM-2 implementation (`modules/spaced-repetition/lib/schedule.ts`, unit-tested); every item can also carry external practice links plus a "practice done" checkbox.
 - Recurring-task scheduling runs fully client-side (`modules/recurring-tasks/lib/schedule.ts`, unit-tested). An in-app reminder bell in the header (`modules/recurring-tasks/components/reminder-bell.tsx`) collects overdue / due-soon tasks across every task shape; OS-level push notifications remain a TODO.
 - The PDF viewer renders pages fully client-side with pdf.js (`modules/pdf-reader/components/pdf-viewer.tsx`): fit-width canvas rendering with devicePixelRatio scaling, prev/next + zoom controls, arrow-key navigation and a reading progress bar. The real total page count is detected on load and persisted back to Firestore, and every page change saves reading progress. Because pdf.js fetches the file with XHR/fetch, **external hosts must send CORS headers** — otherwise the viewer shows an error with an "open original" fallback. PDF bytes are not cached offline beyond the normal browser HTTP cache.
 - Rules tests require the Firestore emulator (`FIRESTORE_EMULATOR_HOST`); they auto-skip otherwise so plain `npm run test` stays green.

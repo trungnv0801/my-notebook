@@ -27,7 +27,7 @@ export interface UpdateMemoryInput {
   patch: Partial<MemoryItem>
 }
 
-/** Generic field patch — used by the quiz-done checkbox and anything else that tweaks one field. */
+/** Generic field patch — used by the practice-done checkbox and anything else that tweaks one field. */
 export function useUpdateMemory() {
   const { user } = useAuth()
   return useMutation({

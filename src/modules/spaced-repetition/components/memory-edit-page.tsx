@@ -9,11 +9,6 @@ import { useMemoies, useUpdateMemory } from '../hooks/use-memories'
 import type { MemoryItem } from '../types'
 import { MemoryForm, type MemoryFormValues } from './memory-form'
 
-function getQuizUrls(item: MemoryItem): string[] {
-  if (Array.isArray(item.quizUrls) && item.quizUrls.length > 0) return item.quizUrls
-  return item.quizUrl ? [item.quizUrl] : []
-}
-
 export default function MemoryEditPage() {
   const { memoryId } = useParams()
   const { t } = useTranslation('spaced-repetition')
@@ -42,18 +37,18 @@ function MemoryEditForm({ memory }: { memory: Note<MemoryItem> }) {
   const navigate = useNavigate()
   const { t } = useTranslation('spaced-repetition')
   const updateMemory = useUpdateMemory()
-  const currentQuizUrls = getQuizUrls(memory)
+  const currentPracticeUrls = memory.practiceUrls
 
   async function onSubmit(values: MemoryFormValues) {
-    const quizUrls = values.quizLinks.map(({ url }) => url)
-    const quizListChanged = JSON.stringify(quizUrls) !== JSON.stringify(currentQuizUrls)
+    const practiceUrls = values.practiceLinks.map(({ url }) => url)
+    const practiceListChanged = JSON.stringify(practiceUrls) !== JSON.stringify(currentPracticeUrls)
 
     await updateMemory.mutateAsync({
       memoryId: memory.id,
       patch: {
         title: values.title,
-        quizUrls,
-        ...(quizListChanged ? { quizDone: false } : {})
+        practiceUrls,
+        ...(practiceListChanged ? { practiceDone: false } : {})
       }
     })
     void navigate('..')
@@ -63,7 +58,7 @@ function MemoryEditForm({ memory }: { memory: Note<MemoryItem> }) {
     <MemoryForm
       title={t('edit.title')}
       submitLabel={t('edit.submit')}
-      defaultValues={{ title: memory.title, quizLinks: currentQuizUrls.map((url) => ({ url })) }}
+      defaultValues={{ title: memory.title, practiceLinks: currentPracticeUrls.map((url) => ({ url })) }}
       onCancel={() => void navigate('..')}
       onSubmit={onSubmit}
     />

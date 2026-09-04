@@ -2,15 +2,15 @@ import type { Dictionary } from './en'
 
 const vi: Dictionary = {
   title: 'Lặp lại ngắt quãng',
-  subtitle: 'Nhóm các đường link quiz và ôn tập theo lịch giãn dần',
+  subtitle: 'Nhóm các link bài luyện tập và ôn tập theo lịch giãn dần',
   fields: {
     title: 'Tiêu đề',
-    quizUrls: 'Các đường link quiz',
-    quizUrlNumber: 'Đường link quiz {{number}}'
+    practiceUrls: 'Các link bài luyện tập',
+    practiceUrlNumber: 'Link bài luyện tập {{number}}'
   },
   list: {
     emptyTitle: 'Chưa có mục nào',
-    emptyDescription: 'Thêm tiêu đề và một hoặc nhiều đường link quiz để bắt đầu ôn tập.',
+    emptyDescription: 'Thêm tiêu đề và một hoặc nhiều link bài luyện tập để bắt đầu ôn tập.',
     totalCount_one: '{{count}} mục',
     totalCount_other: '{{count}} mục',
     dueCount_one: '{{count}} mục cần ôn hôm nay',
@@ -28,9 +28,9 @@ const vi: Dictionary = {
       due: 'Đến hạn',
       scheduled: 'Đã lên lịch'
     },
-    quiz: {
-      openNumber: 'Mở quiz {{number}}',
-      done: 'Đã làm tất cả quiz'
+    practice: {
+      openNumber: 'Mở bài luyện tập {{number}}',
+      done: 'Đã làm tất cả bài luyện tập'
     }
   },
   review: {
@@ -41,21 +41,21 @@ const vi: Dictionary = {
     easy: 'Dễ'
   },
   memoryForm: {
-    addQuizLink: 'Thêm đường link quiz',
-    removeQuizLink: 'Xoá đường link quiz {{number}}',
+    addPracticeLink: 'Thêm link bài luyện tập',
+    removePracticeLink: 'Xoá link bài luyện tập {{number}}',
     errors: {
-      quizUrl: 'Nhập đường link http(s) hợp lệ, ví dụ https://example.com/quiz.'
+      practiceUrl: 'Nhập link http(s) hợp lệ, ví dụ https://example.com/practice.'
     }
   },
   create: {
-    title: 'Bộ quiz mới',
-    submit: 'Lưu bộ quiz'
+    title: 'Bộ bài luyện tập mới',
+    submit: 'Lưu bộ bài luyện tập'
   },
   edit: {
-    action: 'Chỉnh sửa bộ quiz',
-    title: 'Chỉnh sửa bộ quiz',
+    action: 'Chỉnh sửa bộ bài luyện tập',
+    title: 'Chỉnh sửa bộ bài luyện tập',
     submit: 'Lưu thay đổi',
-    notFound: 'Không tìm thấy bộ quiz'
+    notFound: 'Không tìm thấy bộ bài luyện tập'
   }
 }
 

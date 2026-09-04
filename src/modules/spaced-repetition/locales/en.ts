@@ -1,14 +1,14 @@
 const en = {
   title: 'Spaced Repetition',
-  subtitle: 'Group your quiz links and review them on an expanding schedule',
+  subtitle: 'Group your practice links and review them on an expanding schedule',
   fields: {
     title: 'Title',
-    quizUrls: 'Quiz links',
-    quizUrlNumber: 'Quiz link {{number}}'
+    practiceUrls: 'Practice links',
+    practiceUrlNumber: 'Practice link {{number}}'
   },
   list: {
     emptyTitle: 'Nothing saved yet',
-    emptyDescription: 'Add a title and one or more quiz links to start reviewing.',
+    emptyDescription: 'Add a title and one or more practice links to start reviewing.',
     totalCount_one: '{{count}} item',
     totalCount_other: '{{count}} items',
     dueCount_one: '{{count}} due for review',
@@ -26,9 +26,9 @@ const en = {
       due: 'Due',
       scheduled: 'Scheduled'
     },
-    quiz: {
-      openNumber: 'Open quiz {{number}}',
-      done: 'All quizzes done'
+    practice: {
+      openNumber: 'Open practice exercise {{number}}',
+      done: 'All practice exercises completed'
     }
   },
   review: {
@@ -39,21 +39,21 @@ const en = {
     easy: 'Easy'
   },
   memoryForm: {
-    addQuizLink: 'Add quiz link',
-    removeQuizLink: 'Remove quiz link {{number}}',
+    addPracticeLink: 'Add practice link',
+    removePracticeLink: 'Remove practice link {{number}}',
     errors: {
-      quizUrl: 'Enter a valid http(s) link, e.g. https://example.com/quiz.'
+      practiceUrl: 'Enter a valid http(s) link, e.g. https://example.com/practice.'
     }
   },
   create: {
-    title: 'New quiz set',
-    submit: 'Save quiz set'
+    title: 'New practice set',
+    submit: 'Save practice set'
   },
   edit: {
-    action: 'Edit quiz set',
-    title: 'Edit quiz set',
+    action: 'Edit practice set',
+    title: 'Edit practice set',
     submit: 'Save changes',
-    notFound: 'Quiz set not found'
+    notFound: 'Practice set not found'
   }
 }
 

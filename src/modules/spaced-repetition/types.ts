@@ -1,14 +1,11 @@
-/** A titled set of external quizzes reviewed on a spaced-repetition schedule. */
+/** A titled set of external practice exercises reviewed on a spaced-repetition schedule. */
 export interface MemoryItem {
   /** Short label shown in lists. */
   title: string
-  /** Links to the external quizzes included in this item. */
-  quizUrls: string[]
-  /** Legacy fields kept optional so existing Firestore records remain readable. */
-  content?: string
-  quizUrl?: string
-  /** True once the user ticked the "quiz done" checkbox. */
-  quizDone: boolean
+  /** Links to the external practice exercises included in this item. */
+  practiceUrls: string[]
+  /** True once the user has completed all practice exercises. */
+  practiceDone: boolean
   /** SM-2 ease factor (starts at 2.5, clamped to a floor of 1.3). */
   easeFactor: number
   /** Current inter-review interval in days. */
@@ -23,7 +20,7 @@ export interface MemoryItem {
 
 export interface NewMemoryInput {
   title: string
-  quizUrls: string[]
+  practiceUrls: string[]
 }
 
 /** The scheduling subset of {@link MemoryItem} — exactly what one graded review rewrites. */
