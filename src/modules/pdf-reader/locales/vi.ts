@@ -14,6 +14,20 @@ const vi: Dictionary = {
     progress: 'Trang {{page}} / {{total}}',
     progressUnknown: 'Trang {{page}}'
   },
+  reader: {
+    open: 'Đọc',
+    page: 'Trang',
+    previousPage: 'Trang trước',
+    nextPage: 'Trang sau',
+    enterFullscreen: 'Toàn màn hình',
+    exitFullscreen: 'Thoát toàn màn hình',
+    openExternally: 'Mở trong tab mới',
+    saveProgress: 'Lưu tiến độ',
+    progressSaved: 'Đã lưu tiến độ',
+    fullscreenError: 'Trình duyệt này không hỗ trợ chế độ toàn màn hình.',
+    embedHint: 'Nếu PDF không hiển thị, máy chủ của tệp có thể không cho phép nhúng.',
+    frameTitle: 'Tài liệu PDF {{title}}'
+  },
   create: {
     title: 'Thêm PDF',
     submit: 'Lưu PDF'
