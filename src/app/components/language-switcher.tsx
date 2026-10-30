@@ -22,7 +22,7 @@ export function LanguageSwitcher() {
         type='button'
         aria-label={`${t('layout.language')}: ${nextLanguageLabel}`}
         title={`${t('layout.language')}: ${nextLanguageLabel}`}
-        className='inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl border border-border bg-surface px-2.5 text-xs font-bold uppercase tracking-wide text-heading shadow-xs transition-all hover:border-accent/40 hover:bg-accent-bg hover:text-accent active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:hidden'
+        className='inline-flex min-h-11 min-w-11 shrink-0 items-center gap-1.5 rounded-xl border border-border bg-surface px-2.5 text-xs font-bold uppercase tracking-wide text-heading shadow-xs transition-colors hover:border-accent/40 hover:bg-accent-bg hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:hidden'
         onClick={() => changeLanguage(nextLanguage)}
       >
         <Languages aria-hidden='true' className='size-4 text-accent' />
@@ -44,7 +44,7 @@ export function LanguageSwitcher() {
               type='button'
               aria-pressed={isActive}
               className={cn(
-                'h-7 rounded-lg px-2.5 text-xs font-semibold transition-all focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent',
+                'min-h-11 min-w-11 rounded-lg px-2.5 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent',
                 isActive ? 'bg-surface text-accent shadow-xs' : 'text-text hover:bg-surface/60 hover:text-heading'
               )}
               onClick={() => changeLanguage(option.value)}

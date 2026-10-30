@@ -13,7 +13,7 @@
     "prettier:fix": "prettier --write \"src/**/(*.tsx|*.ts|*.css|*.scss)\"",
     "test": "vitest run",
     "test:rules": "vitest run tests/firestore.rules.test.ts",
-    "dev:emulators": "firebase emulators:start --only auth,firestore  --import=./firebase-export --export-on-exit",
+    "dev:emulators": "firebase emulators:start --only auth,firestore --import=./firebase-export --export-on-exit",
     "prepare": "husky"
   },
   "dependencies": {

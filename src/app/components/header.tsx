@@ -34,7 +34,7 @@ export function Header({ onMenuClick }: { onMenuClick: () => void }) {
         <ReminderBell />
         <LanguageSwitcher />
         <ThemeToggle />
-        <span className='hidden min-w-0 items-center gap-2 rounded-full border border-border bg-surface py-1 pl-1 pr-3 shadow-xs sm:inline-flex'>
+        <span className='hidden min-w-0 items-center gap-2 rounded-full border border-border bg-surface py-1 pl-1 pr-3 shadow-xs lg:inline-flex'>
           <span
             aria-hidden='true'
             className='grid size-6 shrink-0 place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-[10px] font-bold text-white'
