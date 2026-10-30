@@ -12,7 +12,6 @@ import { PageHeader } from '@/core/ui/page-header'
 import { Skeleton } from '@/core/ui/skeleton'
 
 import { useDeletePdf, useDocuments } from '../hooks/use-documents'
-import { getPdfUrl } from '../lib/pdf-url'
 
 export default function DocumentListPage() {
   const { user } = useAuth()
@@ -88,7 +87,9 @@ export default function DocumentListPage() {
               </CardContent>
               <CardContent className='mt-3'>
                 <div className='flex gap-2'>
-                  <OpenDocumentButton initialPage={document.lastReadPage} url={document.url} />
+                  <Button size='sm' variant='outline' onClick={() => void navigate(document.id)}>
+                    {t('reader.open')}
+                  </Button>
                   <Button size='sm' variant='ghost' onClick={() => void navigate(`${document.id}/edit`)}>
                     <Pencil className='size-4' />
                     {t('edit.action')}
@@ -100,16 +101,5 @@ export default function DocumentListPage() {
         </div>
       )}
     </section>
-  )
-}
-
-function OpenDocumentButton({ url, initialPage }: { url: string; initialPage: number }) {
-  const { t } = useTranslation('pdf-reader')
-  const href = getPdfUrl(url, initialPage)
-
-  return (
-    <Button size='sm' variant='outline' onClick={() => window.open(href, '_blank', 'noopener,noreferrer')}>
-      {t('actions.open', { ns: 'common' })}
-    </Button>
   )
 }
