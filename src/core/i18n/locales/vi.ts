@@ -18,6 +18,8 @@ const vi: Dictionary = {
     error: 'Không thể lưu. Vui lòng thử lại.'
   },
   layout: {
+    skip: 'Chuyển đến nội dung',
+    workspace: 'Không gian cá nhân của bạn',
     menu: 'Menu',
     language: 'Ngôn ngữ'
   },

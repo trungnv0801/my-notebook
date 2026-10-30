@@ -13,7 +13,7 @@ export function Card({
     <div
       className={cn(
         'rounded-2xl border border-border bg-surface p-5 shadow-sm',
-        interactive && 'transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/35 hover:shadow-md',
+        interactive && 'transition-[border-color,box-shadow] duration-200 hover:border-accent/35 hover:shadow-md',
         className
       )}
       {...props}
@@ -37,7 +37,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectHTMLAttributes<HTMLSel
     <select
       ref={ref}
       className={cn(
-        'h-10 cursor-pointer rounded-lg border border-border bg-surface px-3 text-sm text-heading transition-colors duration-200',
+        'min-h-11 max-w-full cursor-pointer rounded-xl border border-border bg-surface px-3 py-2 text-base text-heading transition-colors duration-200 sm:text-sm',
         fieldFocusClasses,
         className
       )}

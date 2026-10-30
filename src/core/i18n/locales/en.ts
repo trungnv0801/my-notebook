@@ -16,6 +16,8 @@ const en = {
     error: 'Could not save. Please try again.'
   },
   layout: {
+    skip: 'Skip to content',
+    workspace: 'Your personal workspace',
     menu: 'Menu',
     language: 'Language'
   },

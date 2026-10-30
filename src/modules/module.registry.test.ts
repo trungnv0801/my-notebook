@@ -3,8 +3,13 @@ import { describe, expect, it } from 'vitest'
 import { appModules } from './module.registry'
 
 describe('module.registry', () => {
-  it('registers the three starter modules', () => {
-    expect(appModules.map((module) => module.id)).toEqual(['spaced-repetition', 'recurring-tasks', 'pdf-reader'])
+  it('registers all modules in navigation order', () => {
+    expect(appModules.map((module) => module.id)).toEqual([
+      'spaced-repetition',
+      'recurring-tasks',
+      'pdf-reader',
+      'english-learning'
+    ])
   })
 
   it('has unique ids and paths', () => {

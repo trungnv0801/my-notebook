@@ -140,6 +140,36 @@ describe.skipIf(!emulatorReady)('firestore.rules', () => {
     await assertFails(setDoc(reference, { ...validTask, createdAt: Date.now() }))
   })
 
+  it('validates vocabulary content and review state and isolates accounts', async () => {
+    const alice = testEnv.authenticatedContext('alice').firestore()
+    const reference = doc(alice, 'users', 'alice', 'englishVocabulary', 'word-1')
+    const vocabulary = {
+      word: 'remember',
+      meaning: 'ghi nhớ',
+      example: 'I remember this word.',
+      intervalDays: 0,
+      nextReviewAt: null,
+      lastReviewedAt: null,
+      createdAt: serverTimestamp()
+    }
+    await assertSucceeds(setDoc(reference, vocabulary))
+    await assertSucceeds(getDoc(reference))
+    await assertSucceeds(setDoc(reference, { ...vocabulary, phonetic: '/rɪˈmembə/' }))
+    await assertFails(setDoc(reference, { ...vocabulary, phonetic: 123 }))
+    await assertFails(setDoc(reference, { ...vocabulary, phonetic: 'a'.repeat(201) }))
+    await assertFails(setDoc(reference, { ...vocabulary, word: '' }))
+    await assertFails(setDoc(reference, { ...vocabulary, meaning: '' }))
+    await assertFails(setDoc(reference, { ...vocabulary, intervalDays: -1 }))
+    await assertFails(setDoc(reference, { ...vocabulary, intervalDays: 181 }))
+    await assertFails(setDoc(reference, { ...vocabulary, nextReviewAt: 'tomorrow' }))
+    await assertFails(setDoc(reference, { ...vocabulary, createdAt: 123 }))
+    const bob = testEnv.authenticatedContext('bob').firestore()
+    await assertFails(getDoc(doc(bob, 'users', 'alice', 'englishVocabulary', 'word-1')))
+    await assertFails(setDoc(doc(bob, 'users', 'alice', 'englishVocabulary', 'word-1'), vocabulary))
+    const anonymous = testEnv.unauthenticatedContext().firestore()
+    await assertFails(getDoc(doc(anonymous, 'users', 'alice', 'englishVocabulary', 'word-1')))
+  })
+
   it('stores the expected rules payload shape', () => {
     expect(Object.keys(validTask)).toContain('intervalMonths')
     expect(Object.keys(validTask)).toContain('trackReading')

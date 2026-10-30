@@ -115,6 +115,17 @@ service cloud.firestore {
         && hasCreatedAt(data, isNew);
     }
 
+    function validVocabulary(data, isNew) {
+      return nonEmptyString(data.word) && data.word.size() <= 200
+        && data.get('phonetic', '') is string && data.get('phonetic', '').size() <= 200
+        && nonEmptyString(data.meaning) && data.meaning.size() <= 500
+        && data.example is string && data.example.size() <= 2000
+        && data.intervalDays is int && data.intervalDays >= 0 && data.intervalDays <= 180
+        && nullableNumber(data.nextReviewAt)
+        && nullableNumber(data.lastReviewedAt)
+        && hasCreatedAt(data, isNew);
+    }
+
     // User profile document: displayName, preferredLocale, theme, createdAt.
     match /users/{uid} {
       allow read, write: if isOwner(uid);
@@ -141,6 +152,12 @@ service cloud.firestore {
         allow read, delete: if isOwner(uid);
         allow create: if isOwner(uid) && validPdfDocument(request.resource.data, true);
         allow update: if isOwner(uid) && validPdfDocument(request.resource.data, false);
+      }
+
+      match /englishVocabulary/{wordId} {
+        allow read, delete: if isOwner(uid);
+        allow create: if isOwner(uid) && validVocabulary(request.resource.data, true);
+        allow update: if isOwner(uid) && validVocabulary(request.resource.data, false);
       }
     }
 
